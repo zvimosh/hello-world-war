@@ -14,13 +14,13 @@ pipeline {
         }
         stage('Build') {
             steps{
-                sh 'docker build -t my-hello-world:$BUILD_ID .'
+                sh 'docker build -t zvimosh/my-hello-world:$BUILD_ID .'
             }
         }
         stage('Test') {
             steps {
                 sh 'docker rm -f tomcat || true'
-                sh 'docker run -d --rm --name tomcat -p 8080:8080 my-hello-world:$BUILD_ID .'
+                sh 'docker run -d --rm --name tomcat -p 8080:8080 zvimosh/my-hello-world:$BUILD_ID .'
                 sh 'sleep 10'
                 sh "curl -s http://localhost:8080/hello-world-war-1.0.0"
                 sh "docker stop tomcat"
