@@ -19,7 +19,7 @@ pipeline {
             steps {
                 sh 'docker run -d --rm --name tomcat -p 8080:8080 war:$BUILD_ID .'
                 sh 'sleep 10'
-                sh "curl -s http://localhost:8080/ | grep 'Hello'"
+                sh "curl -s http://localhost:8080/hello-world-war-1.0.0 | grep 'Hello'"
             }
         }
     }
