@@ -22,7 +22,7 @@ pipeline {
                 sh 'sleep 10'
                 sh "curl -s http://localhost:8080/hello-world-war-1.0.0"
                 sh "docker stop tomcat"
-                sh 'docker rmi war:$BUILD_ID'
+                sh 'docker rmi -f war:$BUILD_ID'
             }
         }
     }
