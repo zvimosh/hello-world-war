@@ -2,6 +2,7 @@
 pipeline {
 	environment {
 		DOCKERHUB_CREDENTIALS=credentials('dockerhubaccount')
+        DOCKERHUB_URL='https://hub.docker.com/r/zvimosh/my-hello-world'
 	}
     agent {
         label 'ubuntu'
@@ -24,7 +25,6 @@ pipeline {
                 sh 'sleep 10'
                 sh "curl -s http://localhost:8080/hello-world-war-1.0.0"
                 sh "docker stop tomcat"
-                sh 'docker rmi -f war:$BUILD_ID'
             }
         }
 		stage('Login') {
@@ -35,6 +35,8 @@ pipeline {
 		stage('Push') {
 			steps {
 				sh 'docker push zvimosh/my-hello-world:$BUILD_ID'
+                sh 'docker rmi -f zvimosh/my-hello-world:$BUILD_ID'
+
 			}
 		} 
     }
@@ -53,7 +55,7 @@ def custom_msg()
 {
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID= env.BUILD_ID
-  def JENKINS_MSG= " build: [${BUILD_ID}] was a sucess! in job [${env.JOB_NAME}]"
+  def JENKINS_MSG= " build: [${BUILD_ID}] was a sucess! in job [${env.JOB_NAME}] and can be found here: [${env.DOCKERHUB_URL}]"
   return JENKINS_MSG
 }
 
