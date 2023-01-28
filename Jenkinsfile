@@ -4,10 +4,6 @@ pipeline {
     agent {
         label 'ubuntu'
     }
-
-    triggers {
-  pollSCM '* * * * *'
-}
     stages {
         stage('checkout code') {
             steps {
