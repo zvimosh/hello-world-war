@@ -23,7 +23,6 @@ pipeline {
                 sh "curl -s http://localhost:8080/hello-world-war-1.0.0"
                 sh "docker stop tomcat"
                 sh 'docker rmi -f war:$BUILD_ID'
-                sh 'echo "$BUILD_ID" > build.txt'
             }
         }
     }
@@ -33,11 +32,17 @@ pipeline {
               
             }
         success {
-             id = sh(returnStdout: true, script: 'cat build.txt').trim()
-             slackSend message: 'build ' + $BUILD_ID +' was a success :)', color: 'good'
+             slackSend message: "${custom_msg()}", color: 'good'
          }
          }
-         
+def custom_msg()
+{
+  def JOB_NAME = env.JOB_NAME
+  def BUILD_ID= env.BUILD_ID
+  def JENKINS_MSG= " build: [${BUILD_ID}] in job [${env.JOB_NAME}]/consoleText"
+  return JENKINS_MSG
+}
+
 
 }
 
