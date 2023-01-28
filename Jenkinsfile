@@ -32,7 +32,7 @@ pipeline {
               
             }
         success {
-		slackSend message: 'build $BUILD_ID was a success :)', color: 'good'
+		  slackSend channel: '#general', message: 'build ' + $BUILD_ID +' was a success :)', color: 'good'
               }
          }
 
