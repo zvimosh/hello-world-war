@@ -35,14 +35,13 @@ pipeline {
              slackSend message: "${custom_msg()}", color: 'good'
          }
          }
+
+}
 def custom_msg()
 {
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID= env.BUILD_ID
   def JENKINS_MSG= " build: [${BUILD_ID}] in job [${env.JOB_NAME}]/consoleText"
   return JENKINS_MSG
-}
-
-
 }
 
