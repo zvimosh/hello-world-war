@@ -12,15 +12,14 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "docker build -t war:$BUILD_ID ."
+                sh 'docker build -t war:$BUILD_ID .'
             }
         }
         stage('Test') {
             steps {
-                ||
-                sh "docker run -d --rm --name tomcat -p 8080:8080 war:$BUILD_ID .
-                    sleep 10
-                    curl -s http://localhost:8080/ | grep 'Hello'"
+                sh 'docker run -d --rm --name tomcat -p 8080:8080 war:$BUILD_ID .
+                sh 'sleep 10'
+                sh 'curl -s http://localhost:8080/ | grep "Hello"'
             }
         }
     }
