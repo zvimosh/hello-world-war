@@ -11,7 +11,9 @@ pipeline {
                   }
         }
         stage('Build') {
+            steps{
                 dockerImage = docker.build("zvimosh/my-hello-world:$BUILD_ID")
+            }
         }
         stage('Test') {
             steps {
@@ -23,12 +25,14 @@ pipeline {
                 sh 'docker rmi -f war:$BUILD_ID'
             }
         }
-        stage('Push image') {
-            withDockerRegistry([ credentialsId: "dockerhubaccount", url: "" ]) 
-                {
-                    dockerImage.push()
-                }
-            }    
+        stage('Push image'){
+            steps{
+                withDockerRegistry([ credentialsId: "dockerhubaccount", url: "" ]) 
+                    {
+                        dockerImage.push()
+                    }
+                }    
+        }    
     }
     post {
         always {
