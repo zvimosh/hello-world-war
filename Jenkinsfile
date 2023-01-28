@@ -32,11 +32,7 @@ pipeline {
               
             }
         success {
-            script {
-                sh '''
-                curl -X POST -H 'Content-type: application/json' --data '{"text":"Zvi Maven Project build: $BUILD_ID"}' https://hooks.slack.com/services/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
-                '''
-                   }
+		slackSend channel: '#general', message: 'build $BUILD_ID was a success :)', color: 'good'
               }
          }
 
