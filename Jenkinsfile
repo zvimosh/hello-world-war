@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('checkout code') {
             steps {
-                  checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '>                //checkout scmGit(branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', rela>
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'zvi-github', url: 'git@github.com:zvimosh/hello-world-war.git']])
                   }
         }
         stage('Build') {
@@ -17,9 +17,9 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'docker run -d --rm --name tomcat -p 8080:8080 war:$BUILD_ID .
+                sh 'docker run -d --rm --name tomcat -p 8080:8080 war:$BUILD_ID .'
                 sh 'sleep 10'
-                sh 'curl -s http://localhost:8080/ | grep "Hello"'
+                sh "curl -s http://localhost:8080/ | grep 'Hello'"
             }
         }
     }
