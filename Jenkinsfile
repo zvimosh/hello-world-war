@@ -23,6 +23,7 @@ pipeline {
                 sh "curl -s http://localhost:8080/hello-world-war-1.0.0"
                 sh "docker stop tomcat"
                 sh 'docker rmi -f war:$BUILD_ID'
+		env.buildid=$BUILD_ID
             }
         }
     }
@@ -32,7 +33,7 @@ pipeline {
               
             }
         success {
-		  slackSend channel: '#general', message: 'build ' + $BUILD_ID +' was a success :)', color: 'good'
+		  slackSend channel: '#general', message: 'build ' + ${env.buildid} +' was a success :)', color: 'good'
               }
          }
 
