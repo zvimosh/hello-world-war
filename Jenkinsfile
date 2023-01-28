@@ -22,9 +22,9 @@ pipeline {
         stage('Test') {
             steps {
                 ||
-                sh "docker run -d --rm --name tomcat -p 8080:8080 war:$BUILD_ID ."
-                sh "sleep 10"
-                sh "curl -s http://localhost:8080/ | grep 'Hello'"
+                sh "docker run -d --rm --name tomcat -p 8080:8080 war:$BUILD_ID .
+                    sleep 10
+                    curl -s http://localhost:8080/ | grep 'Hello'"
             }
         }
     }
