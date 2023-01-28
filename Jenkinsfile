@@ -1,8 +1,6 @@
 // Uses Declarative syntax to run commands inside a container.
 pipeline {
-    parameters {
-           string(name: 'buildid', defaultValue: '')
-        }
+
     agent {
         label 'ubuntu'
     }
@@ -25,12 +23,7 @@ pipeline {
                 sh "curl -s http://localhost:8080/hello-world-war-1.0.0"
                 sh "docker stop tomcat"
                 sh 'docker rmi -f war:$BUILD_ID'
-		
-            }
-        }
-        stage('declare') {
-            steps {
-                env.buildid=$BUILD_ID
+                slackSend channel: '#general', message: 'build ' + $BUILD_ID +' was a success :)', color: 'good'
             }
         }
     }
@@ -40,8 +33,7 @@ pipeline {
               
             }
         success {
-		  slackSend channel: '#general', message: 'build ' + ${env.buildid} +' was a success :)', color: 'good'
-              }
+          }
          }
 
 }
