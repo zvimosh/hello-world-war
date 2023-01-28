@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build') {
             steps{
-                dockerImage = docker.build("zvimosh/my-hello-world:$BUILD_ID")
+                sh 'docker build -t my-hello-world:$BUILD_ID .'
             }
         }
         stage('Test') {
