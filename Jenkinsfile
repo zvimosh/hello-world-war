@@ -17,6 +17,7 @@ pipeline {
         }
         stage('Test') {
             steps {
+                sh 'docker rm -f tomcat || true'
                 sh 'docker run -d --rm --name tomcat -p 8080:8080 war:$BUILD_ID .'
                 sh 'sleep 10'
                 sh "curl -s http://localhost:8080/hello-world-war-1.0.0 | grep 'Hello'"
