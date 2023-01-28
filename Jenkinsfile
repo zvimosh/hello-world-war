@@ -1,6 +1,8 @@
 // Uses Declarative syntax to run commands inside a container.
 pipeline {
-
+	environment {
+		DOCKERHUB_CREDENTIALS=credentials('dockerhubaccount')
+	}
     agent {
         label 'ubuntu'
     }
@@ -25,19 +27,21 @@ pipeline {
                 sh 'docker rmi -f war:$BUILD_ID'
             }
         }
-        stage('Push image'){
-            steps{
-                withDockerRegistry([ credentialsId: "dockerhubaccount", url: "" ]) 
-                    {
-                        dockerImage.push()
-                    }
-                }    
-        }    
+		stage('Login') {
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+		stage('Push') {
+			steps {
+				sh 'docker push zvimosh/my-hello-world:$BUILD_ID'
+			}
+		} 
     }
     post {
         always {
-             chuckNorris()  
-              
+            sh 'docker logout'
+            chuckNorris()  
             }
         success {
              slackSend message: "${custom_msg()}", color: 'good'
