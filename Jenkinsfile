@@ -20,7 +20,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'docker rm -f tomcat || true'
-                sh 'docker run -d --rm --name tomcat -p 8080:8080 $dockerImage .'
+                sh 'docker run -d --rm --name tomcat -p 8080:8080 my-hello-world:$BUILD_ID .'
                 sh 'sleep 10'
                 sh "curl -s http://localhost:8080/hello-world-war-1.0.0"
                 sh "docker stop tomcat"
